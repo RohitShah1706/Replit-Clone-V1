@@ -98,6 +98,73 @@ Libraries used:
 
 ---
 
+# Setting up AWS S3 bucket locally with LocalStack
+
+**References**:
+
+1. [Setup AWS S3 bucket locally with LocalStack](https://dev.to/navedrizv/setup-aws-s3-bucket-locally-with-localstack-3n4o)
+2. [Using Localstack to Emulate AWS S3 and SQS With Node](https://iamads.medium.com/using-localstack-emulate-aws-s3-and-sqs-with-node-d43dda1d71c0)
+
+**Steps taken**:
+
+1. Install and start LocalStack
+
+```bash
+# Install LocalStack
+pip install localstack
+
+# Start LocalStack in docker mode, from a container
+localstack start -d
+
+# Install awslocal, which is a thin wrapper around the AWS CLI that allows you to access LocalStack
+pip install awscli-local
+```
+
+2. Create a new Local AWS Profile (called "localstack") to work with LocalStack
+
+```bash
+PS D:\Projects\Vercel Clone> aws configure --profile localstack
+AWS Access Key ID [None]: test
+AWS Secret Access Key [None]: test
+Default region name [None]: ap-south-1
+Default output format [None]:
+```
+
+3. Check if the profile is created
+
+```bash
+PS D:\Projects\Vercel Clone> aws configure list --profile localstack
+      Name                    Value             Type    Location
+      ----                    -----             ----    --------
+   profile               localstack           manual    --profile
+access_key     ****************test shared-credentials-file
+secret_key     ****************test shared-credentials-file
+    region               ap-south-1      config-file    ~/.aws/config
+```
+
+4. Create S3 bucket ("replit-clone-s3-bucket") with "localstack" profile
+
+```bash
+aws s3 mb s3://replit-clone-s3-bucket --endpoint-url http://localhost:4566 --profile localstack
+
+# List all buckets
+aws s3 ls --endpoint-url http://localhost:4566 --profile localstack
+```
+
+5. Copy a folder or file to the bucket
+
+```bash
+aws s3 cp ./target_folder s3://replit-clone-s3-bucket/ --recursive --endpoint-url http://localhost:4566 --profile localstack
+```
+
+6. List all files inside some bucket
+
+```bash
+aws s3 ls s3://replit-clone-s3-bucket/ --recursive --endpoint-url http://localhost:4566 --profile localstack
+```
+
+---
+
 # Future improvements
 
 ---
