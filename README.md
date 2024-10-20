@@ -71,7 +71,10 @@ All users share the same server in `v1`, which can lead to performance issues an
 
 Since all users share the same server in `v1`, port conflicts can arise when multiple users run code that requires the same port (eg - React application requiring port 3000). In `v2`, we will explore port forwarding techniques to dynamically assign ports to users' processes and avoid conflicts.
 
-# TODO: Architecture of our `repl.it clone v2`
+# Architecture of our `repl.it clone`
+
+![Repl.it Architecture](<screenshots/Repl.it Architecture.png>)
+![Repl.it Request Flow](<screenshots/Repl.it Request.png>)
 
 # Pseudo Terminals (PTY)
 
