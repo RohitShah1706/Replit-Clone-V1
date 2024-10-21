@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { z } from "zod";
 
 import { validateSchema } from "../middlewares/verifySchema";
 import { projectCreateSchema } from "../schemas";
@@ -10,7 +9,7 @@ const router = Router();
 
 router.post("/", validateSchema(projectCreateSchema), async (req, res) => {
   const { language } = req.body;
-  const projectId = randomIdGenerator();
+  const projectId = `proj-${randomIdGenerator()}`;
 
   await copyS3Folder(`base/${language}`, `code/${projectId}`);
 

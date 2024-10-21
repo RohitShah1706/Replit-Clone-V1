@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 
 import projectRouter from "./routers/project";
+import orchestratorRouter from "./routers/orchestrator";
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use((req, res, next) => {
 
 // ! register routers
 app.use("/project", projectRouter);
+app.use("/orchestrator", orchestratorRouter);
 
 const PORT = 5000;
 

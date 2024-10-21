@@ -1,0 +1,43 @@
+# ! name first letter has to letter
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service_name
+  labels:
+    app: service_name
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service_name
+  template:
+    metadata:
+      labels:
+        app: service_name
+    spec:
+      containers:
+        - name: runner
+          image: nginx:alpine3.20-slim
+          ports:
+            - containerPort: 80
+          resources:
+            # Bounty $25 Use ephemeral-storage to add space limits here
+            requests:
+              cpu: "1"
+              memory: "1Gi"
+            limits:
+              cpu: "1"
+              memory: "1Gi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service_name
+spec:
+  selector:
+    app: service_name
+  ports:
+    - protocol: TCP
+      name: user
+      port: 80
+      targetPort: 80
