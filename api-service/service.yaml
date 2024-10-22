@@ -1,27 +1,59 @@
-# ! name first letter has to letter
+# ! name first letter has to be character
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: service_name
+  name: service-name
   labels:
-    app: service_name
+    app: service-name
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: service_name
+      app: service-name
   template:
     metadata:
       labels:
-        app: service_name
+        app: service-name
     spec:
+      # ! create & attach a shared volume (initially empty) to the containers at /workspace
+      # ! volume is deleted when the pod is deleted
+      volumes:
+        - name: workspace-volume
+          emptyDir: {}
+      initContainers:
+        - name: copy-s3-resources
+          image: amazon/aws-cli
+          command: ["/bin/sh", "-c"]
+          args:
+            - >
+              aws s3 cp s3://replit-clone/code/service-name/ /workspace/ --recursive &&
+              echo "Resources copied from S3";
+          env:
+            - name: AWS_ACCESS_KEY_ID
+              value: "test"
+            - name: AWS_SECRET_ACCESS_KEY
+              value: "test"
+            - name: AWS_ENDPOINT_URL
+              value: "http://localstack-s3:4566"
+          volumeMounts:
+            - name: workspace-volume
+              mountPath: /workspace
       containers:
         - name: runner
-          image: nginx:alpine3.20-slim
+          # image: 100xdevs/runner:latest
+          # image: nginx:alpine3.20-slim
+          # ! ubuntu:20.04 for debugging
+          image: ubuntu:20.04
+          command: ["/bin/sh", "-c", "tail -f /dev/null"]
           ports:
-            - containerPort: 80
+            - containerPort: 80 # websocket connection for runner
+            - containerPort: 3000 # react/next.js application
+            - containerPort: 5173 # vite
+            - containerPort: 5000 # flask/django/fastapi application
+          volumeMounts:
+            - name: workspace-volume
+              mountPath: /workspace
           resources:
-            # Bounty $25 Use ephemeral-storage to add space limits here
             requests:
               cpu: "1"
               memory: "1Gi"
@@ -32,12 +64,72 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: service_name
+  name: service-name
 spec:
   selector:
-    app: service_name
+    app: service-name
   ports:
     - protocol: TCP
-      name: user
+      name: ws
       port: 80
       targetPort: 80
+    - protocol: TCP
+      name: react
+      port: 3000
+      targetPort: 3000 # react/next.js application
+    - protocol: TCP
+      name: vite
+      port: 5173
+      targetPort: 5173 # vite
+    - protocol: TCP
+      name: flask
+      port: 5000
+      targetPort: 5000 # flask/django/fastapi application
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: service-name
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: service-name.runner.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: service-name
+                port:
+                  number: 80
+    - host: service-name-3000.runner.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: service-name
+                port:
+                  number: 3000
+    - host: service-name-5173.runner.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: service-name
+                port:
+                  number: 5173
+    - host: service-name-5000.runner.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: service-name
+                port:
+                  number: 5000

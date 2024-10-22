@@ -9,7 +9,9 @@ const router = Router();
 
 router.post("/", validateSchema(projectCreateSchema), async (req, res) => {
   const { language } = req.body;
-  const projectId = `proj-${randomIdGenerator()}`;
+  // const projectId = `proj-${randomIdGenerator()}`;
+  // ! TODO: replace with randomIdGenerator
+  const projectId = "proj-aaaa0eef0b1a40188a4299b506a08dc4";
 
   await copyS3Folder(`base/${language}`, `code/${projectId}`);
 

@@ -17,6 +17,7 @@ router.post(
       res.status(500).json({
         message: "Orchestrator start failed",
       });
+      return;
     }
 
     res.status(200).json({

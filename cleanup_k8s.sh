@@ -12,10 +12,11 @@ projectId=$1
 # Delete the Kubernetes service and deployment
 kubectl delete service "$projectId"
 kubectl delete deployment "$projectId"
+kubectl delete ingress "$projectId"
 
 # Check if the commands were successful
 if [ $? -eq 0 ]; then
-  echo "Successfully deleted service and deployment for projectId: $projectId"
+  echo "Successfully deleted resources for projectId: $projectId"
 else
-  echo "Failed to delete service and/or deployment for projectId: $projectId"
+  echo "Failed to delete resources for projectId: $projectId"
 fi
