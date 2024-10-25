@@ -43,8 +43,9 @@ spec:
           # image: 100xdevs/runner:latest
           # image: nginx:alpine3.20-slim
           # ! ubuntu:20.04 for debugging
-          image: ubuntu:20.04
-          command: ["/bin/sh", "-c", "tail -f /dev/null"]
+          # image: ubuntu:20.04
+          # command: ["/bin/sh", "-c", "tail -f /dev/null"]
+          image: rohitshah1706/replit_runner:latest
           ports:
             - containerPort: 1234 # websocket connection for runner
             - containerPort: 3000 # react/next.js application

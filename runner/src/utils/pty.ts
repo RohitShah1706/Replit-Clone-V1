@@ -21,7 +21,7 @@ export class TerminalManager {
       name: "xterm-color",
       cols: 80,
       rows: 30,
-      cwd: process.env.HOME + "/workspace",
+      cwd: "/workspace",
       env: process.env,
     });
 
