@@ -174,4 +174,6 @@ Runner service has S3 credentials in environment variables. If someone gets acce
 
 - Look into file watching library: [Chokidar on NPM](https://www.npmjs.com/package/chokidar)
 
+- VSCode like editor components: [React-Ace on NPM](https://www.npmjs.com/package/react-ace)
+
 - Look into only sending diffs to the server instead of the whole file.

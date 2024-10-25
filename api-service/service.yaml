@@ -46,7 +46,7 @@ spec:
           image: ubuntu:20.04
           command: ["/bin/sh", "-c", "tail -f /dev/null"]
           ports:
-            - containerPort: 80 # websocket connection for runner
+            - containerPort: 1234 # websocket connection for runner
             - containerPort: 3000 # react/next.js application
             - containerPort: 5173 # vite
             - containerPort: 5000 # flask/django/fastapi application
@@ -71,8 +71,8 @@ spec:
   ports:
     - protocol: TCP
       name: ws
-      port: 80
-      targetPort: 80
+      port: 1234
+      targetPort: 1234
     - protocol: TCP
       name: react
       port: 3000
@@ -102,7 +102,7 @@ spec:
               service:
                 name: service-name
                 port:
-                  number: 80
+                  number: 1234
     - host: service-name-3000.runner.local
       http:
         paths:
