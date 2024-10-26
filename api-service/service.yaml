@@ -53,7 +53,7 @@ spec:
             - containerPort: 5000 # flask/django/fastapi application
           volumeMounts:
             - name: workspace-volume
-              mountPath: /workspace
+              mountPath: /home/abc/workspace
           resources:
             requests:
               cpu: "1"

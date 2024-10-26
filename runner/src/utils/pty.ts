@@ -1,5 +1,7 @@
 import { IPty, spawn } from "node-pty";
 
+import { WORKSPACE_PATH } from "../config";
+
 // ! const shell = os.platform() === 'win32' ? 'powershell.exe' : 'bash';
 const SHELL = "bash";
 
@@ -21,8 +23,9 @@ export class TerminalManager {
       name: "xterm-color",
       cols: 80,
       rows: 30,
-      cwd: "/workspace",
+      cwd: WORKSPACE_PATH,
       env: process.env,
+      uid: 1001, // Replace 1000 with the desired user ID
     });
 
     ptyProcess.onData((data) => {
