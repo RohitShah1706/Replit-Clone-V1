@@ -2,6 +2,8 @@
 
 Browser can't run different types of code (eg. C++ or Rust or Go etc.) directly under the hood. It can use something like WebAssembly but it does not scale very well and also does not support all packages for all languages. This is what repl.it solves. It runs the code on the server and sends the output back to the browser.
 
+<br>
+
 # Why is building repl.it hard ?
 
 ### Remote code execution
@@ -19,6 +21,8 @@ Implementing a shell-like interface within a browser is a complex task. It invol
 ### File Storage
 
 It's essential to securely and efficiently store all user-generated files. This process involves managing file permissions to ensure users can only access their personal files, offering a method for users to retrieve their files, and maintaining file persistence even after the user session ends.
+
+<br>
 
 # Architecture of our `repl.it clone v1`
 
@@ -57,6 +61,8 @@ cleans up the resources allocated for that user. This includes:
 - Flushing any changes made by the user to the object storage service
 - Removing the user's files from the server
 
+<br>
+
 # Limitations & how to overcome them
 
 ## Rudimentary Terminal
@@ -71,10 +77,14 @@ All users share the same server in `v1`, which can lead to performance issues an
 
 Since all users share the same server in `v1`, port conflicts can arise when multiple users run code that requires the same port (eg - React application requiring port 3000). In `v2`, we will explore port forwarding techniques to dynamically assign ports to users' processes and avoid conflicts.
 
-# Architecture of our `repl.it clone`
+<br>
+
+# Architecture of our `repl.it clone v2`
 
 ![Repl.it Architecture](<screenshots/Repl.it Architecture.png>)
 ![Repl.it Request Flow](<screenshots/Repl.it Request.png>)
+
+<br>
 
 # Pseudo Terminals (PTY)
 
@@ -89,6 +99,8 @@ Libraries used:
 
 - [node-pty](https://www.npmjs.com/package/node-pty): (server side) is a Node.js module that provides an API for interacting with PTYs. It allows us to spawn a PTY process, send commands to it, and receive the output. This module is used in conjunction with `xterm.js` to create a full-fledged terminal experience within the browser.
 
+<br>
+
 # Setting up AWS S3 bucket locally with LocalStack
 
 **References**:
@@ -98,23 +110,22 @@ Libraries used:
 
 **Steps taken**:
 
-1. Install and start LocalStack
+1. Create LocalStack S3 service in docker-compose file
 
-```bash
-# Install LocalStack
-pip install localstack
-
-# Start LocalStack in docker mode, from a container
-localstack start -d
-
-# Install awslocal, which is a thin wrapper around the AWS CLI that allows you to access LocalStack
-pip install awscli-local
+```yaml
+services:
+  s3:
+    image: localstack/localstack-s3-test:latest-s3
+    container_name: localstack_s3
+    ports:
+      - "4566:4566"
 ```
 
 2. Create a new Local AWS Profile (called "localstack") to work with LocalStack
 
 ```bash
-PS D:\Projects\Vercel Clone> aws configure --profile localstack
+aws configure --profile localstack
+
 AWS Access Key ID [None]: test
 AWS Secret Access Key [None]: test
 Default region name [None]: ap-south-1
@@ -124,7 +135,8 @@ Default output format [None]:
 3. Check if the profile is created
 
 ```bash
-PS D:\Projects\Vercel Clone> aws configure list --profile localstack
+aws configure list --profile localstack
+
       Name                    Value             Type    Location
       -                    --             -    --
    profile               localstack           manual    --profile
@@ -154,6 +166,8 @@ aws s3 cp ./target_folder s3://replit-clone-s3-bucket/ --recursive --endpoint-ur
 aws s3 ls s3://replit-clone-s3-bucket/ --recursive --endpoint-url http://localhost:4566 --profile localstack
 ```
 
+<br>
+
 # Future improvements
 
 ## Protect websocket server
@@ -163,6 +177,8 @@ Put it behind some authentication mechanism.
 ## Limited priviliges to the user in runner service
 
 Runner service has S3 credentials in environment variables. If someone gets access to the runner service, they can access the S3 bucket. We can limit the priviliges of the user in the runner service to only their `workspace` directory.
+
+<br>
 
 # Todo:
 
