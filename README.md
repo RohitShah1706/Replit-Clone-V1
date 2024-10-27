@@ -182,6 +182,12 @@ Runner service has S3 credentials in environment variables. If someone gets acce
 
 # Todo:
 
+- Debounce `file:refresh` socket event in frontend to 200 ms
+
+- Replace the constant `projectId` in `projectRouter` with `randomIdGenerator()`
+
+- Complete all the `TODO` comments in the code.
+
 - Look xterm & PTY videos and understand how it works.
 
 - Look into [Socket.io with xterm.js](https://github.com/jpcweb/xtermjs-socketio) - setup locally and understand how it works.

@@ -38,14 +38,34 @@ spec:
           volumeMounts:
             - name: workspace-volume
               mountPath: /workspace
+        - name: change-volume-ownership
+          image: busybox
+          command: ["sh", "-c", "chown -R 1001:1001 /workspace"]
+          volumeMounts:
+            - name: workspace-volume
+              mountPath: /workspace
       containers:
         - name: runner
           # image: 100xdevs/runner:latest
-          # image: nginx:alpine3.20-slim
           # ! ubuntu:20.04 for debugging
           # image: ubuntu:20.04
           # command: ["/bin/sh", "-c", "tail -f /dev/null"]
           image: rohitshah1706/replit_runner:latest
+          env:
+            - name: WORKSPACE_PATH
+              value: "/home/abc/workspace"
+            - name: UID
+              value: "1001"
+            - name: AWS_ACCESS_KEY_ID
+              value: "test"
+            - name: AWS_SECRET_ACCESS_KEY
+              value: "test"
+            - name: AWS_S3_ENDPOINT
+              value: "http://localstack-s3:4566"
+            - name: AWS_S3_BUCKET_NAME
+              value: "replit-clone"
+            - name: AWS_S3_BUCKET_REGION
+              value: "us-east-1"
           ports:
             - containerPort: 1234 # websocket connection for runner
             - containerPort: 3000 # react/next.js application

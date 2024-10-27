@@ -18,10 +18,9 @@ FROM node:20.18.0 as runner
 WORKDIR /code
 
 # Create user `abc` with uid=1001
-RUN useradd -m -d /home/abc -s /bin/bash -u 1001 abc
-
-# Set appropriate permissions for the `abc` user
-RUN mkdir /home/abc/workspace && chown -R abc:abc /home/abc
+RUN useradd -m -d /home/abc -s /bin/bash -u 1001 abc \
+    && mkdir /home/abc/workspace \
+    && chown -R abc:abc /home/abc/workspace
 
 # Install production dependencies   
 COPY package*.json ./

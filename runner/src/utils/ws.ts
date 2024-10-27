@@ -4,6 +4,7 @@ import { Server as HttpServer } from "http";
 import { TerminalManager } from "./pty";
 import { fetchDir, fetchFileContent, saveFile } from "./fs";
 import { WORKSPACE_PATH } from "../config";
+import { startWatcher } from "./watcher";
 
 const terminalManager = new TerminalManager();
 
@@ -38,6 +39,7 @@ export const startWebsocketServer = (httpServer: HttpServer) => {
     });
 
     initHandlers(socket, projectId);
+    startWatcher(socket, projectId);
   });
 };
 
@@ -49,6 +51,8 @@ const initHandlers = (socket: Socket, projectId: string) => {
     terminalManager.clear(socket.id);
   });
 
+  // TODO: allow clients to open multiple terminals by using some id other than socket.id
+  // TODO: commands will be sent to terminal:input over same socket but use some kind of terminalId
   socket.on("requestTerminal", async () => {
     terminalManager.createPty(socket.id, projectId, (data, id) => {
       // ! FOR TESTING ONLY
@@ -59,12 +63,9 @@ const initHandlers = (socket: Socket, projectId: string) => {
     });
   });
 
-  socket.on(
-    "terminal:input",
-    async ({ data }: { data: string; terminalId: number }) => {
-      terminalManager.write(socket.id, data);
-    }
-  );
+  socket.on("terminal:input", async ({ data }: { data: string }) => {
+    terminalManager.write(socket.id, data);
+  });
 
   socket.on("fetchDir", async (dir: string, callback) => {
     const fullPath = `${WORKSPACE_PATH}/${dir}`;
@@ -86,7 +87,6 @@ const initHandlers = (socket: Socket, projectId: string) => {
     async ({ path: filePath, content }: { path: string; content: string }) => {
       const fullPath = `${WORKSPACE_PATH}/${filePath}`;
       await saveFile(fullPath, content);
-      // TODO: save to S3
     }
   );
 };

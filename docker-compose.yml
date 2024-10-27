@@ -17,5 +17,19 @@ services:
     ports:
       - "4566:4566"
 
+  runner:
+    image: rohitshah1706/replit_runner:latest
+    container_name: runner
+    ports:
+      - "1234:1234"
+    environment:
+      - WORKSPACE_PATH=/home/abc/workspace
+      - UID=1001
+      - AWS_S3_ENDPOINT=http://s3:4566
+      - AWS_S3_BUCKET_NAME=replit-clone
+      - AWS_S3_BUCKET_REGION=ap-south-1
+      - AWS_EXPRESSAPP_USER_ACCESS_KEY=test
+      - AWS_EXPRESSAPP_USER_SECRET_ACCESS_KEY=test
+
 volumes:
   postgres_data:

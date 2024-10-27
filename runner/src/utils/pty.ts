@@ -1,6 +1,6 @@
 import { IPty, spawn } from "node-pty";
 
-import { WORKSPACE_PATH } from "../config";
+import { WORKSPACE_PATH, UID } from "../config";
 
 // ! const shell = os.platform() === 'win32' ? 'powershell.exe' : 'bash';
 const SHELL = "bash";
@@ -15,7 +15,7 @@ export class TerminalManager {
   }
 
   createPty(
-    terminalId: string,
+    terminalId: string, // ! terminalId = socket.id (we want to open multiple terminals)
     projectId: string,
     onData: (data: string, id: number) => void // ! callback function to send data back to the user
   ) {
@@ -25,7 +25,7 @@ export class TerminalManager {
       rows: 30,
       cwd: WORKSPACE_PATH,
       env: process.env,
-      uid: 1001, // Replace 1000 with the desired user ID
+      uid: UID,
     });
 
     ptyProcess.onData((data) => {
