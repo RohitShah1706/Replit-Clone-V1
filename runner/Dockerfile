@@ -29,8 +29,15 @@ RUN npm install --omit=dev
 # Copy the build files from the builder stage
 COPY --from=builder /code/dist ./dist
 
+# Copy the shutdown script
+COPY shutdown.sh /usr/local/bin/shutdown.sh
+RUN chmod +x /usr/local/bin/shutdown.sh
+
 # Expose the desired port
 EXPOSE 1234
+
+# Use shutdown.sh as the entrypoint
+ENTRYPOINT ["shutdown.sh"]
 
 # Use root to run the app
 CMD ["npm", "run", "start"]

@@ -1,20 +1,40 @@
 # ! name first letter has to be character
-apiVersion: apps/v1
-kind: Deployment
+# apiVersion: batch/v1
+# # kind: Deployment
+# kind: Job
+# metadata:
+#   name: service-name
+#   labels:
+#     app: service-name
+# spec:
+#   # replicas: 1
+#   # selector:
+#   #   matchLabels:
+#   #     app: service-name
+#   template:
+#     metadata:
+#       labels:
+#         app: service-name
+#     spec:
+#       restartPolicy: Never
+
+# ! using Job instead of Deployment
+# ! we want to run the pod & if the pod is inactive for `INACTIVITY_TIMEOUT` period it should be deleted
+apiVersion: batch/v1
+kind: Job
 metadata:
   name: service-name
   labels:
     app: service-name
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: service-name
+  backoffLimit: 0 # number of retries before marking the Job as failed
+  ttlSecondsAfterFinished: 0 # time after which Job becomes eligible to be deleted immediately after it finished
   template:
     metadata:
       labels:
         app: service-name
     spec:
+      restartPolicy: Never
       # ! create & attach a shared volume (initially empty) to the containers at /workspace
       # ! volume is deleted when the pod is deleted
       volumes:
@@ -86,6 +106,12 @@ apiVersion: v1
 kind: Service
 metadata:
   name: service-name
+  # ! this is injected dynamically by the utils/k8s.ts:deployK8sManifests
+  # ownerReferences:
+  #   - apiVersion: batch/v1
+  #     uid: service-name-uid # Replace with the Job's UID uid
+  #     kind: Job
+  #     name: service-name
 spec:
   selector:
     app: service-name
@@ -111,6 +137,12 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: service-name
+  # ! this is injected dynamically by the utils/k8s.ts:deployK8sManifests
+  # ownerReferences:
+  #   - apiVersion: batch/v1
+  #     uid: service-name-uid # Replace with the Job's UID uid
+  #     kind: Job
+  #     name: service-name
 spec:
   ingressClassName: nginx
   rules:

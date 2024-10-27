@@ -10,8 +10,10 @@ fi
 projectId=$1
 
 # Delete the Kubernetes service and deployment
+# kubectl delete deployment "$projectId"
+kubectl delete job "$projectId"
+# ! technically don't need to delete the service & ingress, as the job will delete it
 kubectl delete service "$projectId"
-kubectl delete deployment "$projectId"
 kubectl delete ingress "$projectId"
 
 # Check if the commands were successful

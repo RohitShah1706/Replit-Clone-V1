@@ -186,6 +186,8 @@ Runner service has S3 credentials in environment variables. If someone gets acce
 
 - Replace the constant `projectId` in `projectRouter` with `randomIdGenerator()`
 
+- Install python3 in runner `Dockerfile`
+
 - Complete all the `TODO` comments in the code.
 
 - Look xterm & PTY videos and understand how it works.
