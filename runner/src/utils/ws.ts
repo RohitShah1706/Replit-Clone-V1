@@ -57,6 +57,7 @@ const initHandlers = (socket: Socket, projectId: string) => {
     terminalManager.createPty(socket.id, projectId, (data, id) => {
       // ! FOR TESTING ONLY
       // console.log(ab2str(Buffer.from(data, "utf-8")));
+      // console.log(data);
       socket.emit("terminal:output", {
         data: Buffer.from(data, "utf-8"),
       });

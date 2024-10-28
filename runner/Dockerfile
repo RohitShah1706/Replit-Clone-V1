@@ -17,10 +17,14 @@ FROM node:20.18.0 as runner
 
 WORKDIR /code
 
+RUN apt-get update && apt-get install -y acl
+
 # Create user `abc` with uid=1001
 RUN useradd -m -d /home/abc -s /bin/bash -u 1001 abc \
     && mkdir /home/abc/workspace \
-    && chown -R abc:abc /home/abc/workspace
+    && chown -R abc:abc /home/abc/workspace \
+    && setfacl -Rdm u:abc:rwx /home/abc/workspace \
+    && setfacl -Rm u:abc:rwx /home/abc/workspace
 
 # Install production dependencies   
 COPY package*.json ./

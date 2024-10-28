@@ -76,6 +76,8 @@ spec:
               value: "/home/abc/workspace"
             - name: UID
               value: "1001"
+            - name: GID
+              value: "1001"
             - name: AWS_ACCESS_KEY_ID
               value: "test"
             - name: AWS_SECRET_ACCESS_KEY

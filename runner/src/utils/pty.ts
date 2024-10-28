@@ -1,6 +1,6 @@
 import { IPty, spawn } from "node-pty";
 
-import { WORKSPACE_PATH, UID } from "../config";
+import { WORKSPACE_PATH, UID, GID } from "../config";
 
 // ! const shell = os.platform() === 'win32' ? 'powershell.exe' : 'bash';
 const SHELL = "bash";
@@ -26,6 +26,7 @@ export class TerminalManager {
       cwd: WORKSPACE_PATH,
       env: process.env,
       uid: UID,
+      gid: GID,
     });
 
     ptyProcess.onData((data) => {
