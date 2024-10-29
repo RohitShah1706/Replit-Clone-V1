@@ -21,8 +21,8 @@ export class TerminalManager {
   ) {
     const ptyProcess = spawn(SHELL, [], {
       name: "xterm-color",
-      cols: 80,
-      rows: 30,
+      cols: 200,
+      rows: 500,
       cwd: WORKSPACE_PATH,
       env: process.env,
       uid: UID,
@@ -34,7 +34,8 @@ export class TerminalManager {
     });
 
     ptyProcess.onExit(() => {
-      delete this.sessions[ptyProcess.pid];
+      console.log(`utils/pty.ts:TerminalManager: pty ${terminalId} exited`);
+      delete this.sessions[terminalId];
     });
 
     this.sessions[terminalId] = {
@@ -52,7 +53,7 @@ export class TerminalManager {
   }
 
   clear(terminalId: string) {
-    this.sessions[terminalId]?.terminal.clear();
+    this.sessions[terminalId]?.terminal.kill();
     delete this.sessions[terminalId];
   }
 }
