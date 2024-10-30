@@ -1,5 +1,6 @@
 import {
   AppsV1Api,
+  BatchV1Api,
   CoreV1Api,
   KubeConfig,
   NetworkingV1Api,
@@ -12,5 +13,6 @@ kubeConfig.loadFromDefault();
 const coreV1Api = kubeConfig.makeApiClient(CoreV1Api);
 const appsV1Api = kubeConfig.makeApiClient(AppsV1Api);
 const networkingV1Api = kubeConfig.makeApiClient(NetworkingV1Api);
+const batchV1Api = kubeConfig.makeApiClient(BatchV1Api);
 
-export { coreV1Api, appsV1Api, networkingV1Api };
+export { coreV1Api, appsV1Api, networkingV1Api, batchV1Api };
