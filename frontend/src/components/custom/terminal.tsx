@@ -13,8 +13,6 @@ export const TerminalComponent = ({ socket }: { socket: Socket | null }) => {
   const terminalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    console.log("starting terminal");
-    console.log(!terminalRef, !terminalRef.current, !socket);
     if (!terminalRef || !terminalRef.current || !socket) return;
 
     socket.emit("requestTerminal");
@@ -27,7 +25,8 @@ export const TerminalComponent = ({ socket }: { socket: Socket | null }) => {
       theme: {
         background: theme === "dark" ? "#1e1e1e" : "#ffffff",
       },
-      scrollback: 10000,
+      cols: 200,
+      rows: 500,
     });
     term.loadAddon(fitAddon);
     term.open(terminalRef.current);
@@ -47,25 +46,14 @@ export const TerminalComponent = ({ socket }: { socket: Socket | null }) => {
     });
 
     socket.emit("terminal:input", {
-      data: "\n",
+      data: "clear\n",
     });
-
-    const handleResize = () => {
-      console.log("handleResize");
-      fitAddon.fit();
-    };
-    window.addEventListener("resize", handleResize);
 
     return () => {
       socket.off("terminal:output", terminalHandler);
       term.dispose();
-      window.removeEventListener("resize", handleResize);
     };
   }, [terminalRef, theme]);
 
-  return (
-    <div className="h-full w-full py-1">
-      <div className="h-full w-full mt-0" ref={terminalRef} id="terminal" />
-    </div>
-  );
+  return <div className="h-full w-full" ref={terminalRef} id="terminal" />;
 };
