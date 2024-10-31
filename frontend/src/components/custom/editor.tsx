@@ -39,7 +39,7 @@ const Editor = ({
       className="min-h-[100vh] rounded-lg border"
     >
       {/* FileTree Panel --- */}
-      <ResizablePanel defaultSize={20} maxSize={35}>
+      <ResizablePanel defaultSize={20} maxSize={35} className="bg-[#1E1E1E]">
         <FileTree
           rootDir={rootDir}
           selectedFile={selectedFile}

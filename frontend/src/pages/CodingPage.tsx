@@ -5,6 +5,13 @@ import { useParams } from "react-router-dom";
 import { File, RemoteFile, Type } from "../lib/file-manager";
 import Editor from "../components/custom/editor";
 
+const getBasename = (filePath: string) => {
+  console.log("called getBasename");
+  const toRet = filePath.split("/").pop() || "";
+  console.log("getBasename", toRet);
+  return toRet;
+};
+
 const CodingPage = () => {
   const projectId = useParams().projectId || "";
   const [loaded, setLoaded] = useState(false);
@@ -14,29 +21,40 @@ const CodingPage = () => {
 
   useEffect(() => {
     if (socket) {
-      socket.on("loaded", (data) => {
-        console.log(data);
+      socket.on("loaded", ({ rootContent }: { rootContent: RemoteFile[] }) => {
         setLoaded(true);
-        // TODO: replace with real data coming from socket
-        const mockFileStructure: RemoteFile[] = [
-          {
-            type: "dir",
-            name: "test",
-            path: "",
-          },
-          {
-            type: "file",
-            name: "index.html",
-            path: "index.html",
-          },
-          {
-            type: "file",
-            name: "index.js",
-            path: "index.js",
-          },
-        ];
-        setFileStructure(mockFileStructure);
+        setFileStructure(rootContent);
       });
+
+      socket.on(
+        "file:refresh",
+        ({ event, filePath }: { event: string; filePath: string }) => {
+          console.log("file:refresh", event, filePath);
+          setFileStructure((prev) => {
+            const allFiles = [...prev];
+            const index = allFiles.findIndex((file) => file.path === filePath);
+            console.log("index", index);
+
+            if (index !== -1 && (event === "unlink" || event === "unlinkDir")) {
+              allFiles.splice(index, 1);
+            } else if (event === "add") {
+              allFiles.splice(index, 0, {
+                type: "file",
+                name: getBasename(filePath),
+                path: filePath,
+              });
+            } else if (event === "addDir") {
+              allFiles.splice(index, 0, {
+                type: "dir",
+                name: getBasename(filePath),
+                path: filePath,
+              });
+            }
+
+            return allFiles;
+          });
+        }
+      );
     }
   }, [socket]);
 

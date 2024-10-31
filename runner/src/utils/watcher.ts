@@ -45,11 +45,13 @@ export const startWatcher = (socket: Socket, projectId: string) => {
     // console.log(
     //   `src/index.ts:frontEndWatcher: ignore event: ${event}, filePath: ${filePath}`
     // );
+    const relativePath = path.relative(WORKSPACE_PATH, filePath);
+    console.log("relativePath", relativePath);
     socket.emit("file:refresh", {
       event,
-      filePath,
+      filePath: `/${relativePath}`,
     });
-  }, 3000);
+  }, 5000);
 
   frontEndWatcher.on("all", (event, filePath: string) => {
     const ignore = toIgnore.some((item) => filePath.includes(item));
@@ -63,13 +65,14 @@ export const startWatcher = (socket: Socket, projectId: string) => {
         event === "addDir" ||
         event === "unlinkDir"
       ) {
-        // TODO emit event to frontend: to build the tree
         // console.log(
         //   `src/index.ts:frontEndWatcher: event: ${event}, filePath: ${filePath}`
         // );
+        const relativePath = path.relative(WORKSPACE_PATH, filePath);
+        console.log("relativePath", relativePath);
         socket.emit("file:refresh", {
           event,
-          filePath,
+          filePath: `/${relativePath}`,
         });
       }
     }

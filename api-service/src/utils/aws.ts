@@ -49,9 +49,9 @@ export const copyS3Folder = async (
         };
 
         await s3Client.send(new CopyObjectCommand(copyParams));
-        console.log(
-          `utils/aws.ts:copyS3FolderToLocal: copied ${object.Key} to ${destinationKey}`
-        );
+        // console.log(
+        //   `utils/aws.ts:copyS3FolderToLocal: copied ${object.Key} to ${destinationKey}`
+        // );
       })
     );
 

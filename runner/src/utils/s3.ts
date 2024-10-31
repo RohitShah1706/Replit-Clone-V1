@@ -13,9 +13,9 @@ export const saveToS3 = async (
   key: string,
   filePath: string
 ): Promise<void> => {
-  console.log(
-    `utils/s3.ts:saveToS3: uploading filePath: ${filePath} to S3 key: ${key}`
-  );
+  // console.log(
+  //   `utils/s3.ts:saveToS3: uploading filePath: ${filePath} to S3 key: ${key}`
+  // );
   const fileStream = fs.createReadStream(filePath);
 
   const params: PutObjectCommandInput = {
@@ -26,16 +26,16 @@ export const saveToS3 = async (
 
   try {
     await s3Client.send(new PutObjectCommand(params));
-    console.log(
-      `utils/s3.ts:saveToS3: File uploaded successfully to ${params.Bucket}/${params.Key}`
-    );
+    // console.log(
+    //   `utils/s3.ts:saveToS3: File uploaded successfully to ${params.Bucket}/${params.Key}`
+    // );
   } catch (error) {
-    console.error(`utils/s3.ts:saveToS3: Error uploading file to S3: ${error}`);
+    // console.error(`utils/s3.ts:saveToS3: Error uploading file to S3: ${error}`);
   }
 };
 
 export const deleteFromS3 = async (key: string): Promise<void> => {
-  console.log(`utils/s3.ts:deleteFromS3: deleting key: ${key}`);
+  // console.log(`utils/s3.ts:deleteFromS3: deleting key: ${key}`);
 
   try {
     const params: DeleteObjectCommandInput = {
@@ -44,9 +44,9 @@ export const deleteFromS3 = async (key: string): Promise<void> => {
     };
 
     await s3Client.send(new DeleteObjectCommand(params));
-    console.log(
-      `utils/s3.ts:deleteFromS3: File deleted successfully from ${AWS_S3_BUCKET_NAME}/${key}`
-    );
+    // console.log(
+    //   `utils/s3.ts:deleteFromS3: File deleted successfully from ${AWS_S3_BUCKET_NAME}/${key}`
+    // );
   } catch (error) {
     console.error(
       `utils/s3.ts:deleteFromS3: Error deleting file from S3: ${error}`

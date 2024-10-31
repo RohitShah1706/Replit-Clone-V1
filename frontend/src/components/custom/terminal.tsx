@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 
 import { Socket } from "socket.io-client";
 import { Terminal } from "@xterm/xterm";
-import "@xterm/xterm/css/xterm.css";
+// import "@xterm/xterm/css/xterm.css";
 import { FitAddon } from "@xterm/addon-fit";
 import { useTheme } from "../providers/theme-provider";
 
@@ -25,7 +25,7 @@ export const TerminalComponent = ({ socket }: { socket: Socket | null }) => {
       theme: {
         background: theme === "dark" ? "#1e1e1e" : "#ffffff",
       },
-      cols: 200,
+      cols: 500,
       rows: 500,
     });
     term.loadAddon(fitAddon);
@@ -38,7 +38,6 @@ export const TerminalComponent = ({ socket }: { socket: Socket | null }) => {
     }
 
     term.onData((data) => {
-      console.log(data);
       socket.emit("terminal:input", {
         data,
       });

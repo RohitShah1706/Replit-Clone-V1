@@ -36,7 +36,8 @@ export const startWebsocketServer = (httpServer: HttpServer) => {
 
     socket.emit("loaded", {
       // TODO: replace with rootContent: await fetchDir("/workspace", "")
-      message: "Websocket connected",
+      // message: "Websocket connected",
+      rootContent: await fetchDir(`${WORKSPACE_PATH}`, ""),
     });
 
     initHandlers(socket, projectId);
@@ -56,11 +57,7 @@ const initHandlers = (socket: Socket, projectId: string) => {
   // TODO: commands will be sent to terminal:input over same socket but use some kind of terminalId
   socket.on("requestTerminal", async () => {
     terminalManager.createPty(socket.id, projectId, (data, id) => {
-      // ! FOR TESTING ONLY
-      // console.log(ab2str(Buffer.from(data, "utf-8")));
-      // console.log(data);
       socket.emit("terminal:output", {
-        // data: Buffer.from(data, "utf-8"),
         data,
       });
     });
