@@ -26,9 +26,9 @@ export const startWatcher = (socket: Socket, projectId: string) => {
 
   s3Watcher.on("all", async (event, filePath: string) => {
     const relativePath = path.relative(WORKSPACE_PATH, filePath);
-    // console.log(
-    //   `src/index.ts:s3Watcher: event: ${event}, filePath: ${filePath}`
-    // );
+    console.log(
+      `src/index.ts:s3Watcher: event: ${event}, filePath: ${filePath}`
+    );
     if (event === "add" || event === "change") {
       await saveToS3(`code/${projectId}/${relativePath}`, filePath);
     } else if (event === "unlink") {
@@ -57,7 +57,7 @@ export const startWatcher = (socket: Socket, projectId: string) => {
     const ignore = toIgnore.some((item) => filePath.includes(item));
 
     if (ignore) {
-      debouncedEventHandler(event, filePath);
+      // debouncedEventHandler(event, filePath);
     } else {
       if (
         event === "add" ||

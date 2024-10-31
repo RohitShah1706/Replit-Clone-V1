@@ -25,7 +25,7 @@ export const TerminalComponent = ({ socket }: { socket: Socket | null }) => {
       theme: {
         background: theme === "dark" ? "#1e1e1e" : "#ffffff",
       },
-      cols: 500,
+      cols: 1000,
       rows: 500,
     });
     term.loadAddon(fitAddon);

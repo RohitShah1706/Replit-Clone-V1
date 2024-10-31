@@ -21,10 +21,13 @@ export class TerminalManager {
   ) {
     const ptyProcess = spawn(SHELL, [], {
       name: "xterm-color",
-      cols: 200,
+      cols: 500,
       rows: 500,
       cwd: WORKSPACE_PATH,
-      env: process.env,
+      env: {
+        ...process.env,
+        npm_config_cache: "/home/abc/.npm",
+      },
       uid: UID,
       gid: GID,
     });
