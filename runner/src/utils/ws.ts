@@ -35,6 +35,7 @@ export const startWebsocketServer = (httpServer: HttpServer) => {
     }
 
     socket.emit("loaded", {
+      // TODO: replace with rootContent: await fetchDir("/workspace", "")
       message: "Websocket connected",
     });
 
