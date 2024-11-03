@@ -201,3 +201,7 @@ Runner service has S3 credentials in environment variables. If someone gets acce
 - Look into only sending diffs to the server instead of the whole file [Quill on NPM](https://www.npmjs.com/package/quill)
 
 - VSCode like editor components: [React-Ace on NPM](https://www.npmjs.com/package/react-ace)
+
+- Websockets Security:
+  - [WebSocket Security | Heroku](https://devcenter.heroku.com/articles/websocket-security)
+  - [WebSocket Authentication & Authorization | Youtube](https://www.youtube.com/watch?v=twNgfrE4ShE)
