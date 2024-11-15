@@ -182,6 +182,10 @@ Runner service has S3 credentials in environment variables. If someone gets acce
 
 # Todo:
 
+- Replace `console.log` with logs using `winston` npm package
+
+- Implement Github OAuth & middlewares for backend route protection
+
 - Debounce `file:refresh` socket event in frontend to 200 ms
 
 - Replace the constant `projectId` in `projectRouter` with `randomIdGenerator()`

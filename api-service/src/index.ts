@@ -3,6 +3,7 @@ import cors from "cors";
 
 import projectRouter from "./routers/project";
 import orchestratorRouter from "./routers/orchestrator";
+import { authenticateGithub } from "./middlewares/authenticateGithub";
 
 const app = express();
 
@@ -17,6 +18,11 @@ app.use((req, res, next) => {
 // ! register routers
 app.use("/project", projectRouter);
 app.use("/orchestrator", orchestratorRouter);
+
+app.get("/protected", authenticateGithub, (req, res) => {
+  const emailId = res.locals.emailId;
+  res.status(200).json({ emailId });
+});
 
 const PORT = 5000;
 
