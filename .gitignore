@@ -1,3 +1,5 @@
 *.pem
 tmp
 .env
+nextjs_trial
+reactjs_trial

@@ -1,16 +1,19 @@
-import { useEffect, useRef } from "react";
+"use client";
+
+import { useEffect, useRef, useState } from "react";
 
 import { Socket } from "socket.io-client";
+import "@xterm/xterm/css/xterm.css";
 import { Terminal } from "@xterm/xterm";
-// import "@xterm/xterm/css/xterm.css";
 import { FitAddon } from "@xterm/addon-fit";
-import { useTheme } from "../providers/theme-provider";
+import { useTheme } from "next-themes";
 
 const fitAddon = new FitAddon();
 
-export const TerminalComponent = ({ socket }: { socket: Socket | null }) => {
+const TerminalComponent = ({ socket }: { socket: Socket | null }) => {
   const { theme } = useTheme();
   const terminalRef = useRef<HTMLDivElement>(null);
+  const [isTerminalInitialized, setIsTerminalInitialized] = useState(false);
 
   useEffect(() => {
     if (!terminalRef || !terminalRef.current || !socket) return;
@@ -28,9 +31,9 @@ export const TerminalComponent = ({ socket }: { socket: Socket | null }) => {
       cols: 1000,
       rows: 500,
     });
-    term.loadAddon(fitAddon);
+    // term.loadAddon(fitAddon);
     term.open(terminalRef.current);
-    fitAddon.fit();
+    // fitAddon.fit();
 
     function terminalHandler({ data }: { data: string }) {
       term.write(data);
@@ -48,6 +51,8 @@ export const TerminalComponent = ({ socket }: { socket: Socket | null }) => {
       data: "clear\n",
     });
 
+    setIsTerminalInitialized(true);
+
     return () => {
       socket.off("terminal:output", terminalHandler);
       term.dispose();
@@ -56,3 +61,5 @@ export const TerminalComponent = ({ socket }: { socket: Socket | null }) => {
 
   return <div className="h-full w-full" ref={terminalRef} id="terminal" />;
 };
+
+export default TerminalComponent;

@@ -1,9 +1,10 @@
+"use client";
+
 import { useEffect, useState } from "react";
 
-import { useSocket } from "../hooks/use-socket";
-import { useParams } from "react-router-dom";
-import { File, RemoteFile, Type } from "../lib/file-manager";
-import Editor from "../components/custom/editor";
+import { useSocket } from "@/hooks/use-socket";
+import { File, RemoteFile, Type } from "@/lib/file-manager";
+import Editor from "@/components/custom/editor";
 
 const getBasename = (filePath: string) => {
   console.log("called getBasename");
@@ -12,12 +13,15 @@ const getBasename = (filePath: string) => {
   return toRet;
 };
 
-const CodingPage = () => {
-  const projectId = useParams().projectId || "";
+export default function CodingPage({
+  params,
+}: {
+  params: { projectId: string };
+}) {
   const [loaded, setLoaded] = useState(false);
   const [fileStructure, setFileStructure] = useState<RemoteFile[]>([]);
   const [selectedFile, setSelectedFile] = useState<File | undefined>(undefined);
-  const socket = useSocket(projectId);
+  const socket = useSocket(params.projectId);
 
   useEffect(() => {
     if (socket) {
@@ -87,6 +91,4 @@ const CodingPage = () => {
       files={fileStructure}
     />
   );
-};
-
-export default CodingPage;
+}

@@ -1,7 +1,7 @@
 import { Socket } from "socket.io-client";
 import Editor from "@monaco-editor/react";
 
-import { File } from "../../lib/file-manager";
+import { File } from "@/lib/file-manager";
 
 const CodeArea = ({
   selectedFile,

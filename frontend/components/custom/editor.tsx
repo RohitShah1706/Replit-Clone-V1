@@ -7,9 +7,8 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "../ui/resizable";
-import { ThemeModeToggle } from "../custom/theme-mode-toggle";
-import { TerminalComponent } from "../custom/terminal";
-import { buildFileTree, File, RemoteFile } from "../../lib/file-manager";
+import TerminalComponent from "./terminal";
+import { buildFileTree, File, RemoteFile } from "@/lib/file-manager";
 import CodeArea from "./code-area";
 
 const Editor = ({
