@@ -11,7 +11,8 @@ import {
 } from "@/components/ui/select";
 
 export const ThemeModeToggle = () => {
-  const { theme, setTheme } = useTheme();
+  // const { theme, setTheme } = useTheme();
+  const { setTheme } = useTheme();
 
   return (
     <div>

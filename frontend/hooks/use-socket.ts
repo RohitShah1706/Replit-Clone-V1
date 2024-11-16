@@ -1,18 +1,35 @@
+"use client";
+
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { Socket, io } from "socket.io-client";
 
+const RUNNER_URL = process.env.NEXT_PUBLIC_RUNNER_URL || "";
+
 export const useSocket = (projectId: string) => {
+  const { data: session, status } = useSession();
   const [socket, setSocket] = useState<Socket | null>(null);
-  const RUNNER_URL = process.env.NEXT_PUBLIC_RUNNER_URL || "";
 
   useEffect(() => {
-    const newSocket = io(`ws://${projectId}.${RUNNER_URL}`);
-    setSocket(newSocket);
+    console.log("auth token", session?.accessToken);
+    if (status === "authenticated") {
+      const newSocket = io(`ws://${projectId}.${RUNNER_URL}`, {
+        auth: {
+          token: session?.accessToken as string,
+        },
+      });
 
-    return () => {
-      newSocket.disconnect();
-    };
-  }, [projectId]);
+      newSocket.on("connect", () => {
+        console.log("connected to socket");
+        setSocket(newSocket);
+      });
+
+      return () => {
+        console.log("disonnecting socket");
+        newSocket.disconnect();
+      };
+    }
+  }, [projectId, session]);
 
   return socket;
 };

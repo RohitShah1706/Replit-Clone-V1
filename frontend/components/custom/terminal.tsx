@@ -5,10 +5,10 @@ import { useEffect, useRef, useState } from "react";
 import { Socket } from "socket.io-client";
 import "@xterm/xterm/css/xterm.css";
 import { Terminal } from "@xterm/xterm";
-import { FitAddon } from "@xterm/addon-fit";
+// import { FitAddon } from "@xterm/addon-fit";
 import { useTheme } from "next-themes";
 
-const fitAddon = new FitAddon();
+// const fitAddon = new FitAddon();
 
 const TerminalComponent = ({ socket }: { socket: Socket | null }) => {
   const { theme } = useTheme();
@@ -17,6 +17,8 @@ const TerminalComponent = ({ socket }: { socket: Socket | null }) => {
 
   useEffect(() => {
     if (!terminalRef || !terminalRef.current || !socket) return;
+
+    setIsTerminalInitialized(false);
 
     socket.emit("requestTerminal");
     socket.on("terminal:output", terminalHandler);
@@ -58,6 +60,13 @@ const TerminalComponent = ({ socket }: { socket: Socket | null }) => {
       term.dispose();
     };
   }, [terminalRef, theme]);
+
+  if (!isTerminalInitialized)
+    return (
+      <div className="h-full w- flex items-center justify-center">
+        Loading...
+      </div>
+    );
 
   return <div className="h-full w-full" ref={terminalRef} id="terminal" />;
 };

@@ -29,7 +29,8 @@ export const options: NextAuthOptions = {
     maxAge: 60 * 60 * 1, // ! one hour
   },
   callbacks: {
-    jwt: async ({ token, user, account }) => {
+    // jwt: async ({ token, user,  account }) => {
+    jwt: async ({ token, account }) => {
       const jwt = token as JWT & { accessToken?: string };
       if (account && account.access_token) {
         jwt.accessToken = account.access_token;

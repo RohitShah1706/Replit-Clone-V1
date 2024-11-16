@@ -31,5 +31,11 @@ services:
       - AWS_EXPRESSAPP_USER_ACCESS_KEY=test
       - AWS_EXPRESSAPP_USER_SECRET_ACCESS_KEY=test
 
+  frontend:
+    image: rohitshah1706/replit_frontend:latest
+    container_name: frontend
+    ports:
+      - "3000:3000"
+
 volumes:
   postgres_data:

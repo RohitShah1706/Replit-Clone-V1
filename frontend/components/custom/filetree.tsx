@@ -134,7 +134,7 @@ const FileIcon = ({
   name?: string;
   extension?: string;
 }) => {
-  let icon = getIcon(extension || "", name || "");
+  const icon = getIcon(extension || "", name || "");
   return (
     <span className="flex w-8 h-8 justify-center items-center">{icon}</span>
   );

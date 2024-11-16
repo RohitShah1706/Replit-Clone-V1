@@ -31,7 +31,8 @@ export function buildFileTree(data: RemoteFile[]): Directory {
   const dirs = data.filter((x) => x.type === "dir");
   const files = data.filter((x) => x.type === "file");
   const cache = new Map<string, Directory | File>();
-  let rootDir: Directory = {
+
+  const rootDir: Directory = {
     id: "root",
     name: "root",
     parentId: undefined,
@@ -41,8 +42,9 @@ export function buildFileTree(data: RemoteFile[]): Directory {
     dirs: [],
     files: [],
   };
+
   dirs.forEach((item) => {
-    let dir: Directory = {
+    const dir: Directory = {
       id: item.path,
       name: item.name,
       path: item.path,
@@ -61,7 +63,7 @@ export function buildFileTree(data: RemoteFile[]): Directory {
     cache.set(dir.id, dir);
   });
   files.forEach((item) => {
-    let file: File = {
+    const file: File = {
       id: item.path,
       name: item.name,
       path: item.path,
@@ -76,6 +78,7 @@ export function buildFileTree(data: RemoteFile[]): Directory {
     };
     cache.set(file.id, file);
   });
+  // cache.forEach((value, key) => {
   cache.forEach((value, key) => {
     if (value.parentId === "0") {
       if (value.type === Type.DIRECTORY) rootDir.dirs.push(value as Directory);
