@@ -40,6 +40,10 @@ spec:
       volumes:
         - name: workspace-volume
           emptyDir: {}
+        - name: logs-volume
+          hostPath:
+            path: /custom_logs
+            type: DirectoryOrCreate
       initContainers:
         - name: copy-s3-resources
           image: amazon/aws-cli
@@ -96,6 +100,8 @@ spec:
           volumeMounts:
             - name: workspace-volume
               mountPath: /home/abc/workspace
+            - name: logs-volume
+              mountPath: /home/root/
           resources:
             requests:
               cpu: "1"

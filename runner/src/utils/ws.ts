@@ -5,7 +5,7 @@ import { TerminalManager } from "./pty";
 import { fetchDir, fetchFileContent, saveFile } from "./fs";
 import { WORKSPACE_PATH } from "../config";
 import { startWatcher } from "./watcher";
-import { authenticateSocket } from "./authenticateSocket";
+// import { authenticateSocket } from "./authenticateSocket";
 
 const terminalManager = new TerminalManager();
 
@@ -22,7 +22,7 @@ export const startWebsocketServer = (httpServer: HttpServer) => {
     },
   });
 
-  io.use(authenticateSocket);
+  // io.use(authenticateSocket);
 
   io.on("connection", async (socket) => {
     // host = projectId.runner.local

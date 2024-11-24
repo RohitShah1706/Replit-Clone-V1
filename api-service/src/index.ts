@@ -29,8 +29,8 @@ const PORT = 5000;
 
 const startServer = async () => {
   try {
-    await prismaClient.$connect();
-    console.log(`src/index.ts:startServer: connected to db`);
+    // await prismaClient.$connect();
+    // console.log(`src/index.ts:startServer: connected to db`);
     app.listen(PORT, () => {
       console.log(`src/index.ts:startServer: server started on port ${PORT}`);
     });

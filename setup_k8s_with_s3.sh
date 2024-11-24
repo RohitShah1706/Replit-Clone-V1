@@ -1,10 +1,16 @@
 #!/bin/bash
 
+tmux kill-server
+
 # if minikube is not running, start it else echo "Minikube is running
 if ! minikube status > /dev/null 2>&1; then
   minikube start --static-ip=192.168.49.2
 fi
+
 echo "Minikube is running"
+
+tmux new-session -d -s minikube
+tmux send-keys -t minikube "minikube mount ./elk/logs:/custom_logs" C-m
 
 minikubeIp=$(minikube ip)
 echo "Minikube IP: $minikubeIp"
