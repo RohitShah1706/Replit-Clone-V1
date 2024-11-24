@@ -5,13 +5,14 @@ import path from "path";
 import { debounce } from "./debounce";
 import { WORKSPACE_PATH } from "../config";
 import { deleteFromS3, saveToS3 } from "./s3";
+import { log } from "./logger";
 
 // TODO: add toIgnore array
 const toIgnore = ["node_modules"];
 
 export const startWatcher = (socket: Socket, projectId: string) => {
   // ! monitor WORKSPACE_PATH for changes
-  console.log(
+  log(
     `utils/watcher.ts:startWatcher: watching WORKSPACE_PATH: ${WORKSPACE_PATH}`
   );
   const s3Watcher = chokidar.watch(WORKSPACE_PATH, {
@@ -26,9 +27,7 @@ export const startWatcher = (socket: Socket, projectId: string) => {
 
   s3Watcher.on("all", async (event, filePath: string) => {
     const relativePath = path.relative(WORKSPACE_PATH, filePath);
-    console.log(
-      `src/index.ts:s3Watcher: event: ${event}, filePath: ${filePath}`
-    );
+    log(`src/index.ts:s3Watcher: event: ${event}, filePath: ${filePath}`);
     if (event === "add" || event === "change") {
       await saveToS3(`code/${projectId}/${relativePath}`, filePath);
     } else if (event === "unlink") {
@@ -46,7 +45,7 @@ export const startWatcher = (socket: Socket, projectId: string) => {
     //   `src/index.ts:frontEndWatcher: ignore event: ${event}, filePath: ${filePath}`
     // );
     const relativePath = path.relative(WORKSPACE_PATH, filePath);
-    console.log("relativePath", relativePath);
+    // console.log("relativePath", relativePath);
     socket.emit("file:refresh", {
       event,
       filePath: `/${relativePath}`,
@@ -69,7 +68,7 @@ export const startWatcher = (socket: Socket, projectId: string) => {
         //   `src/index.ts:frontEndWatcher: event: ${event}, filePath: ${filePath}`
         // );
         const relativePath = path.relative(WORKSPACE_PATH, filePath);
-        console.log("relativePath", relativePath);
+        // console.log("relativePath", relativePath);
         socket.emit("file:refresh", {
           event,
           filePath: `/${relativePath}`,

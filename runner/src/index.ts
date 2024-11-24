@@ -3,6 +3,7 @@ import { createServer } from "http";
 import cors from "cors";
 
 import { startWebsocketServer } from "./utils/ws";
+import { log } from "./utils/logger";
 
 const app = express();
 
@@ -18,10 +19,10 @@ const PORT = 1234;
 const startServer = async () => {
   try {
     httpServer.listen(PORT, () => {
-      console.log(`src/index.ts:startServer: server started on port ${PORT}`);
+      log(`src/index.ts:startServer: server started on port ${PORT}`, "error");
     });
   } catch (error) {
-    console.log(`src/index.ts:startServer ERROR: ${error}`);
+    log(`src/index.ts:startServer ERROR: ${error}`);
     process.exit(1);
   }
 };

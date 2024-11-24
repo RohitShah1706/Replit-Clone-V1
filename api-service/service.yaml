@@ -78,6 +78,8 @@ spec:
           env:
             - name: WORKSPACE_PATH
               value: "/home/abc/workspace"
+            - name: LOGS_PATH
+              value: "/home/root/custom_logs"
             - name: UID
               value: "1001"
             - name: GID
@@ -92,6 +94,8 @@ spec:
               value: "replit-clone"
             - name: AWS_S3_BUCKET_REGION
               value: "us-east-1"
+            - name: PROJECT_ID
+              value: "service-name"
           ports:
             - containerPort: 1234 # websocket connection for runner
             - containerPort: 3000 # react/next.js application

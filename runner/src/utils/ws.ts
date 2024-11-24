@@ -5,6 +5,7 @@ import { TerminalManager } from "./pty";
 import { fetchDir, fetchFileContent, saveFile } from "./fs";
 import { WORKSPACE_PATH } from "../config";
 import { startWatcher } from "./watcher";
+import { log } from "./logger";
 // import { authenticateSocket } from "./authenticateSocket";
 
 const terminalManager = new TerminalManager();
@@ -29,7 +30,7 @@ export const startWebsocketServer = (httpServer: HttpServer) => {
     const host = socket.handshake.headers.host;
     const projectId = host?.split(".")[0];
 
-    console.log(`utils/ws.ts:startWebsocketServer: connected to ${projectId}`);
+    log(`utils/ws.ts:startWebsocketServer: connected to ${projectId}`);
 
     if (!projectId) {
       socket.disconnect();
@@ -50,9 +51,7 @@ export const startWebsocketServer = (httpServer: HttpServer) => {
 
 const initHandlers = (socket: Socket, projectId: string) => {
   socket.on("disconnect", () => {
-    console.log(
-      `utils/ws.ts:initHandlers: ${projectId} disconnected from websocket`
-    );
+    log(`utils/ws.ts:initHandlers: ${projectId} disconnected from websocket`);
     terminalManager.clear(socket.id);
   });
 

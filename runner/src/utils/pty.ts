@@ -1,5 +1,6 @@
 import { IPty, spawn } from "node-pty";
 
+import { log } from "./logger";
 import { WORKSPACE_PATH, UID, GID } from "../config";
 
 // ! const shell = os.platform() === 'win32' ? 'powershell.exe' : 'bash';
@@ -37,7 +38,7 @@ export class TerminalManager {
     });
 
     ptyProcess.onExit(() => {
-      console.log(`utils/pty.ts:TerminalManager: pty ${terminalId} exited`);
+      log(`utils/pty.ts:TerminalManager: pty ${terminalId} exited`);
       delete this.sessions[terminalId];
     });
 
@@ -46,7 +47,7 @@ export class TerminalManager {
       projectId: projectId,
     };
 
-    console.log(`utils/pty.ts:TerminalManager: created pty ${terminalId}`);
+    log(`utils/pty.ts:TerminalManager: created pty ${terminalId}`);
 
     return ptyProcess;
   }
