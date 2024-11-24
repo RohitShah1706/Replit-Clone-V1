@@ -4,6 +4,7 @@ import cors from "cors";
 import projectRouter from "./routers/project";
 import orchestratorRouter from "./routers/orchestrator";
 import { authenticateGithub } from "./middlewares/authenticateGithub";
+import { prismaClient } from "./connection/prisma";
 
 const app = express();
 
@@ -28,6 +29,8 @@ const PORT = 5000;
 
 const startServer = async () => {
   try {
+    await prismaClient.$connect();
+    console.log(`src/index.ts:startServer: connected to db`);
     app.listen(PORT, () => {
       console.log(`src/index.ts:startServer: server started on port ${PORT}`);
     });
