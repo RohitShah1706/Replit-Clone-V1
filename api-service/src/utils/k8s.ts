@@ -7,6 +7,7 @@ import {
   coreV1Api,
   networkingV1Api,
 } from "../connection/k8s";
+import { log } from "./logger";
 import { K8S_NAMESPACE } from "../config";
 
 export const deployK8sManifests = async (projectId: string) => {
@@ -61,7 +62,7 @@ export const deployK8sManifests = async (projectId: string) => {
           );
           break;
         default:
-          console.log(
+          log(
             `utils/k8s.ts:deployK8sManifests: Unsupported kind: ${manifest.kind}`
           );
       }
@@ -69,7 +70,7 @@ export const deployK8sManifests = async (projectId: string) => {
 
     return true;
   } catch (error) {
-    console.log(`utils/k8s.ts:deployK8sManifests: ERROR: ${error}`);
+    log(`utils/k8s.ts:deployK8sManifests: ERROR: ${error}`, "error");
     return false;
   }
 };

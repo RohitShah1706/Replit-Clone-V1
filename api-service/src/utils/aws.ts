@@ -8,6 +8,7 @@ import {
 } from "@aws-sdk/client-s3";
 
 import { s3Client } from "../connection/s3";
+import { log } from "./logger";
 import { AWS_S3_BUCKET_NAME } from "../config";
 
 // ! copy one folder in s3 to another folder in s3
@@ -64,7 +65,7 @@ export const copyS3Folder = async (
       );
     }
   } catch (error) {
-    console.log(`utils/aws.ts:copyS3Folder ERROR: ${error}`);
+    log(`utils/aws.ts:copyS3Folder ERROR: ${error}`, "error");
   }
 };
 
