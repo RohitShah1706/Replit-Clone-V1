@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { getServerSession } from "next-auth";
 import { useRouter } from "next/navigation";
 
-export default async function Home() {
+export default function Home() {
   const projectId = "proj-aaaa0eef0b1a40188a4299b506a08dc4";
   // const projectId = "proj-75074a23ef3144bdb2b51c428be8c9b9";
   const router = useRouter();
