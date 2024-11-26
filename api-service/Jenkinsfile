@@ -90,7 +90,7 @@ pipeline {
                 emailext(
                     subject: "${jobName} - Build ${buildNumber} - ${pipelineStatus.toUpperCase()}",
                     body: body,
-                    to: "rlshah03@gmail.com, vidhish.coding.trivedi@gmail.com"
+                    to: "rlshah03@gmail.com, vidhish.coding.trivedi@gmail.com",
                     from: "rlshah03@gmail.com",
                     replyTo: "rlshah03@gmail.com",
                     mimeType: 'text/html'
