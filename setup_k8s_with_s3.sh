@@ -15,7 +15,7 @@ tmux send-keys -t minikube "minikube mount ./elk/logs:/custom_logs" C-m
 minikubeIp=$(minikube ip)
 echo "Minikube IP: $minikubeIp"
 
-kubectl apply -f manifests/s3.yaml
+kubectl apply -f manifests/s3
 
 # sleep 10 seconds
 sleep 10
