@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = 'rohitshah1706/replit_frontend'
+        IMAGE_NAME = 'rohitshah1706/replit_api_service'
     }
 
     stages {
@@ -21,7 +21,7 @@ pipeline {
             steps {
                 echo 'Building Docker image...'
                 script {
-                    docker.build("${IMAGE_NAME}:latest", "frontend/")
+                    docker.build("${IMAGE_NAME}:latest", "api-service/")
                 }
             }
         }
@@ -53,8 +53,8 @@ pipeline {
                 echo 'Deploying k8s via ansible...'
                 // ansiblePlaybook(
                 //     installation: 'Ansible',
-                //     inventory: 'frontend/inventory/inventory.ini',
-                //     playbook: 'frontend/playbook/deploy.yml',
+                //     inventory: 'api-service/inventory/inventory.ini',
+                //     playbook: 'api-service/playbook/deploy.yml',
                 // )
             }
         }
