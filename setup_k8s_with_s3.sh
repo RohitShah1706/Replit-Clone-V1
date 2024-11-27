@@ -29,4 +29,4 @@ aws s3 cp s3_base_contents s3://replit-clone/base --recursive --endpoint-url htt
 # aws s3 mb s3://replit-clone --endpoint-url http://localhost:4566
 # aws s3 cp s3_base_contents s3://replit-clone/base --recursive --endpoint-url http://localhost:4566
 # ansible-playbook playbooks/deploy-frontend.yml -i inventory/inventory.ini
-# ansible-playbook deploy-frontend.yml -i inventory/inventory.ini
+# ansible-playbook playbooks/deploy-api-service.yml -i inventory/inventory.ini
