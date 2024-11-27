@@ -1,0 +1,28 @@
+---
+- name: Deploying with Kubernetes
+  hosts: all
+  tasks:
+    - name: Create Frontend Secret
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', './manifests/frontend/secrets.yaml') | from_yaml }}"
+
+    - name: Create Frontend Config Map
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', './manifests/frontend/configmap.yaml') | from_yaml }}"
+
+    - name: Create Frontend Deployment
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', './manifests/frontend/deployment.yaml') | from_yaml }}"
+
+    - name: Create Frontend Service
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', './manifests/frontend/service.yaml') | from_yaml }}"
+
+    - name: Create Frontend Ingress
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', './manifests/frontend/ingress.yaml') | from_yaml }}"

@@ -51,11 +51,11 @@ pipeline {
         stage("Deploy k8s to via ansible") {
             steps {
                 echo 'Deploying k8s via ansible...'
-                // ansiblePlaybook(
-                //     installation: 'Ansible',
-                //     inventory: 'api-service/inventory/inventory.ini',
-                //     playbook: 'api-service/playbook/deploy.yml',
-                // )
+                ansiblePlaybook(
+                    installation: 'Ansible',
+                    inventory: 'inventory/inventory.ini',
+                    playbook: 'playbooks/deploy-api-service.yml',
+                )
             }
         }
     }

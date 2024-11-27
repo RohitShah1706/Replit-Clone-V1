@@ -1,0 +1,28 @@
+---
+- name: Deploying with Kubernetes
+  hosts: all
+  tasks:
+    - name: Create API Service Secret
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', './manifests/api-service/secrets.yaml') | from_yaml }}"
+
+    - name: Create API Service Config Map
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', './manifests/api-service/configmap.yaml') | from_yaml }}"
+
+    - name: Create API Service Deployment
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', './manifests/api-service/deployment.yaml') | from_yaml }}"
+
+    - name: Create API Service Service
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', './manifests/api-service/service.yaml') | from_yaml }}"
+
+    - name: Create API Service Ingress
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', './manifests/api-service/ingress.yaml') | from_yaml }}"
