@@ -12,6 +12,8 @@ echo "Minikube is running"
 tmux new-session -d -s minikube
 tmux send-keys -t minikube "minikube mount ./elk/logs:/custom_logs" C-m
 
+kubectl create namespace replit-app
+
 minikubeIp=$(minikube ip)
 echo "Minikube IP: $minikubeIp"
 
@@ -26,4 +28,5 @@ aws s3 cp s3_base_contents s3://replit-clone/base --recursive --endpoint-url htt
 
 # aws s3 mb s3://replit-clone --endpoint-url http://localhost:4566
 # aws s3 cp s3_base_contents s3://replit-clone/base --recursive --endpoint-url http://localhost:4566
-
+# ansible-playbook playbooks/deploy-frontend.yml -i inventory/inventory.ini
+# ansible-playbook deploy-frontend.yml -i inventory/inventory.ini
