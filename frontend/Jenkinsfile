@@ -21,7 +21,7 @@ pipeline {
             steps {
                 echo 'Building Docker image...'
                 script {
-                    docker.build("${IMAGE_NAME}:latest", "frontend/")
+                    docker.build("${IMAGE_NAME}:latest", "--build-arg NEXT_PUBLIC_RUNNER_URL=runner.local --build-arg NEXT_PUBLIC_API_URL=http://api-service.runner.local frontend/")
                 }
             }
         }

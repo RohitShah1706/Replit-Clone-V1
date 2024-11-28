@@ -101,6 +101,27 @@ Libraries used:
 
 <br>
 
+# Dockerizing a Next.js App with NEXT_PUBLIC Environment Variables
+
+Main issue is that `NEXT_PUBLIC_` environment variables are not available in the CI/CD pipeline. This is because `NEXT_PUBLIC_` environment variables are needed at build time and not at runtime/deploy time. To solve this issue, we can pass this variables as build arguments to the Dockerfile. This way, the variables will be available at build time.
+
+```Dockerfile
+...
+ARG NEXT_PUBLIC_RUNNER_URL
+ARG NEXT_PUBLIC_API_URL
+RUN touch .env.production
+RUN echo "NEXT_PUBLIC_RUNNER_URL=${NEXT_PUBLIC_RUNNER_URL}" >> .env.production
+RUN echo "NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}" >> .env.production
+RUN npm run build
+...
+```
+
+```bash
+docker build -t rohitshah1706/replit_frontend --build-arg NEXT_PUBLIC_RUNNER_URL=runner.local --build-arg NEXT_PUBLIC_API_URL=http://api-service.runner.local .
+```
+
+<br>
+
 # Setting up AWS S3 bucket locally with LocalStack
 
 **References**:
@@ -181,8 +202,6 @@ Runner service has S3 credentials in environment variables. If someone gets acce
 <br>
 
 # Todo:
-
-- Replace `console.log` with logs using `winston` npm package
 
 - Implement Github OAuth & middlewares for backend route protection
 
