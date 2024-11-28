@@ -17,6 +17,16 @@ pipeline {
             }
         }
 
+        stage('Install dependencies and test') {
+            steps {
+                nodejs(nodeJSInstallationName: 'jenkins_node') {
+                    sh 'cd frontend'
+                    sh 'npm install'
+                    sh 'npm run test'
+                }
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 echo 'Building Docker image...'
