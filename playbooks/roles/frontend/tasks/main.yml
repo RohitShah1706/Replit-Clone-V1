@@ -1,0 +1,33 @@
+---
+- name: Create Frontend Secret
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('file', '../manifests/frontend/secrets.yaml') | from_yaml }}"
+
+- name: Create Frontend Config Map
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('file', '../manifests/frontend/configmap.yaml') | from_yaml }}"
+
+- name: Create Frontend Deployment with timestamp annotation
+  kubernetes.core.k8s:
+    state: present
+    definition: >
+      {{ (lookup('file', '../manifests/frontend/deployment.yaml') | from_yaml)
+        | combine({'spec': {'template': {'metadata': {'annotations': {'redeploy-timestamp': timestamp}}}}}) }}
+
+# ! doesn't work with as no changes in manifest file is detected - only change is in docker image
+# - name: Create Frontend Deployment
+#   kubernetes.core.k8s:
+#     state: present
+#     definition: "{{ lookup('file', '../manifests/frontend/deployment.yaml') | from_yaml }}"
+
+- name: Create Frontend Service
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('file', '../manifests/frontend/service.yaml') | from_yaml }}"
+
+- name: Create Frontend Ingress
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('file', '../manifests/frontend/ingress.yaml') | from_yaml }}"

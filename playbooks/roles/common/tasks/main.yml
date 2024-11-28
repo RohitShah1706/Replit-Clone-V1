@@ -1,0 +1,11 @@
+---
+- name: Install pre-requisites
+  pip:
+    name:
+      - openshift
+      - pyyaml
+      - kubernetes
+
+- name: Generate timestamp for annotation
+  ansible.builtin.set_fact:
+    timestamp: "{{ lookup('pipe', 'date +%s') }}"

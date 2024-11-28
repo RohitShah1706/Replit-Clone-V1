@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-config
+  namespace: replit-app
+data:
+  # ! injected as --build-arg by the CI/CD pipeline
+  # NEXT_PUBLIC_RUNNER_URL: runner.local
+  # NEXT_PUBLIC_API_URL: http://api-service.runner.local
+  NEXTAUTH_URL: http://frontend.runner.local

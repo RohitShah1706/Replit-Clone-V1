@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = 'rohitshah1706/replit_frontend'
+        IMAGE_NAME = 'rohitshah1706/replit_runner'
     }
 
     stages {
@@ -21,7 +21,7 @@ pipeline {
             steps {
                 echo 'Building Docker image...'
                 script {
-                    docker.build("${IMAGE_NAME}:latest", "--build-arg NEXT_PUBLIC_RUNNER_URL=runner.local --build-arg NEXT_PUBLIC_API_URL=http://api-service.runner.local frontend/")
+                    docker.build("${IMAGE_NAME}:latest", "runner/")
                 }
             }
         }
@@ -45,17 +45,6 @@ pipeline {
                         docker.image("${IMAGE_NAME}:latest").push()
                     }
                 }
-            }
-        }
-
-        stage("Deploy k8s to via ansible") {
-            steps {
-                echo 'Deploying k8s via ansible...'
-                ansiblePlaybook(
-                    installation: 'Ansible',
-                    inventory: 'inventory/inventory.ini',
-                    playbook: 'playbooks/deploy-frontend.yml',
-                )
             }
         }
     }

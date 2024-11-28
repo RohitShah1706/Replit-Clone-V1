@@ -10,6 +10,12 @@ FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+ARG NEXT_PUBLIC_RUNNER_URL
+ARG NEXT_PUBLIC_API_URL
+RUN touch .env.production
+RUN echo "NEXT_PUBLIC_RUNNER_URL=${NEXT_PUBLIC_RUNNER_URL}" >> .env.production
+RUN echo "NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}" >> .env.production
+RUN cat .env.production
 RUN npm run build
 
 FROM base AS runner

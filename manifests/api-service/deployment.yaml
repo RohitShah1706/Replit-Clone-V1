@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-service
+  namespace: replit-app
+spec:
+  selector:
+    matchLabels:
+      app: api-service
+  template:
+    metadata:
+      labels:
+        app: api-service
+    spec:
+      volumes:
+        - name: logs-volume
+          hostPath:
+            path: /custom_logs
+            type: DirectoryOrCreate
+      containers:
+        - name: api-service
+          image: rohitshah1706/replit_api_service:latest
+          envFrom:
+            - configMapRef:
+                name: api-service-config
+            - secretRef:
+                name: api-service-secrets
+          volumeMounts:
+            - name: logs-volume
+              mountPath: /home/node/
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 5000

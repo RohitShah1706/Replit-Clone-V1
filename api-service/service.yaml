@@ -24,6 +24,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: service-name
+  namespace: replit-app
   labels:
     app: service-name
 spec:
@@ -115,6 +116,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: service-name
+  namespace: replit-app
   # ! this is injected dynamically by the utils/k8s.ts:deployK8sManifests
   # ownerReferences:
   #   - apiVersion: batch/v1
@@ -146,6 +148,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: service-name
+  namespace: replit-app
   # ! this is injected dynamically by the utils/k8s.ts:deployK8sManifests
   # ownerReferences:
   #   - apiVersion: batch/v1

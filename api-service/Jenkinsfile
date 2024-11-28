@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = 'rohitshah1706/replit_frontend'
+        IMAGE_NAME = 'rohitshah1706/replit_api_service'
     }
 
     stages {
@@ -21,7 +21,7 @@ pipeline {
             steps {
                 echo 'Building Docker image...'
                 script {
-                    docker.build("${IMAGE_NAME}:latest", "--build-arg NEXT_PUBLIC_RUNNER_URL=runner.local --build-arg NEXT_PUBLIC_API_URL=http://api-service.runner.local frontend/")
+                    docker.build("${IMAGE_NAME}:latest", "api-service/")
                 }
             }
         }
@@ -54,7 +54,7 @@ pipeline {
                 ansiblePlaybook(
                     installation: 'Ansible',
                     inventory: 'inventory/inventory.ini',
-                    playbook: 'playbooks/deploy-frontend.yml',
+                    playbook: 'playbooks/deploy-api-service.yml',
                 )
             }
         }

@@ -1,0 +1,5 @@
+- name: Deploying with Kubernetes
+  hosts: all
+  roles:
+    - common
+    - api-service
