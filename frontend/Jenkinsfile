@@ -20,9 +20,8 @@ pipeline {
         stage('Install dependencies and test') {
             steps {
                 nodejs(nodeJSInstallationName: 'jenkins_node') {
-                    sh 'cd frontend'
-                    sh 'npm install'
-                    sh 'npm run test'
+                    sh 'cd frontend && npm install'
+                    sh 'cd frontend && npm run test'
                 }
             }
         }
