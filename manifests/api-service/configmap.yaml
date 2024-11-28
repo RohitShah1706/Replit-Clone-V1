@@ -7,6 +7,6 @@ data:
   AWS_S3_ENDPOINT: http://localstack-s3:4566
   AWS_S3_BUCKET_NAME: replit-clone
   AWS_S3_BUCKET_REGION: us-east-1
-  K8S_NAMESPACE: default
+  K8S_NAMESPACE: replit-app
   K8S_CONFIG_FILE_PATH: ./kubeconfig/config
   LOGS_PATH: /home/node/custom_logs
