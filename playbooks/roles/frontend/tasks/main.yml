@@ -9,10 +9,18 @@
     state: present
     definition: "{{ lookup('file', '../manifests/frontend/configmap.yaml') | from_yaml }}"
 
-- name: Create Frontend Deployment
+- name: Create Frontend Deployment with timestamp annotation
   kubernetes.core.k8s:
     state: present
-    definition: "{{ lookup('file', '../manifests/frontend/deployment.yaml') | from_yaml }}"
+    definition: >
+      {{ (lookup('file', '../manifests/frontend/deployment.yaml') | from_yaml)
+        | combine({'spec': {'template': {'metadata': {'annotations': {'redeploy-timestamp': timestamp}}}}}) }}
+
+# ! doesn't work with as no changes in manifest file is detected - only change is in docker image
+# - name: Create Frontend Deployment
+#   kubernetes.core.k8s:
+#     state: present
+#     definition: "{{ lookup('file', '../manifests/frontend/deployment.yaml') | from_yaml }}"
 
 - name: Create Frontend Service
   kubernetes.core.k8s:

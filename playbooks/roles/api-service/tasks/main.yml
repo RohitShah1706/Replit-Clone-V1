@@ -9,10 +9,18 @@
     state: present
     definition: "{{ lookup('file', '../manifests/api-service/configmap.yaml') | from_yaml }}"
 
-- name: Create API Service Deployment
+- name: Create API Service Deployment with timestamp annotation
   kubernetes.core.k8s:
     state: present
-    definition: "{{ lookup('file', '../manifests/api-service/deployment.yaml') | from_yaml }}"
+    definition: >
+      {{ (lookup('file', '../manifests/api-service/deployment.yaml') | from_yaml)
+        | combine({'spec': {'template': {'metadata': {'annotations': {'redeploy-timestamp': timestamp}}}}}) }}
+
+# ! doesn't work with as no changes in manifest file is detected - only change is in docker image
+# - name: Create API Service Deployment
+#   kubernetes.core.k8s:
+#     state: present
+#     definition: "{{ lookup('file', '../manifests/api-service/deployment.yaml') | from_yaml }}"
 
 - name: Create API Service Service
   kubernetes.core.k8s:
