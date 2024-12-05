@@ -56,9 +56,14 @@ filebeat.inputs:
 #     password: ${BEATS_SYSTEM_PASSWORD}
 
 output.elasticsearch:
-  hosts: [http://elasticsearch:9200]
-  username: filebeat_internal
-  password: ${FILEBEAT_INTERNAL_PASSWORD}
+  # hosts: [http://elasticsearch:9200]
+  hosts:
+    [
+      https://9b86a1ba8351426895da2ee101ad5dea.ap-south-1.aws.elastic-cloud.com:443,
+    ]
+  api_key: ${FILEBEAT_API_KEY}
+  # username: filebeat_internal
+  # password: ${FILEBEAT_INTERNAL_PASSWORD}
 
 ## HTTP endpoint for health checking
 ## https://www.elastic.co/guide/en/beats/filebeat/current/http-endpoint.html

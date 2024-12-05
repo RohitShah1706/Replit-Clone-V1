@@ -28,7 +28,8 @@ services:
     environment:
       FILEBEAT_INTERNAL_PASSWORD: ${FILEBEAT_INTERNAL_PASSWORD:-}
       BEATS_SYSTEM_PASSWORD: ${BEATS_SYSTEM_PASSWORD:-}
+      FILEBEAT_API_KEY: ${FILEBEAT_API_KEY:-}
     # networks:
     #   - elk
-    depends_on:
-      - elasticsearch
+    # depends_on:
+    #   - elasticsearch
