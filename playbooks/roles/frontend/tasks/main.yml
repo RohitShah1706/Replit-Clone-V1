@@ -2,7 +2,7 @@
 - name: Create Frontend Secret
   kubernetes.core.k8s:
     state: present
-    definition: "{{ lookup('file', '../manifests/frontend/secrets.yaml') | from_yaml }}"
+    definition: "{{ lookup('file', '../manifests/frontend/secrets_encrypted.yaml') | from_yaml }}"
 
 - name: Create Frontend Config Map
   kubernetes.core.k8s:

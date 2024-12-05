@@ -55,6 +55,7 @@ pipeline {
                     installation: 'Ansible',
                     inventory: 'inventory/inventory.ini',
                     playbook: 'playbooks/deploy-api-service.yml',
+                    vaultCredentialsId: 'ansible_vault_pass', // configure Jenkins credentials with secret text
                 )
             }
         }
