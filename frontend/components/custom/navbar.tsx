@@ -30,7 +30,7 @@ export const Navbar = () => {
             />
           </div>
           <span className="hidden sm:block self-center sm:text-3xl md:text-4xl font-semibold whitespace-nowrap dark:text-white text-black">
-            CodeXecutor v1
+            CodeXecutor v2
           </span>
         </Link>
         <div className="flex items-center gap-2">
